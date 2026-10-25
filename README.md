@@ -255,4 +255,11 @@ docs/                 设计文档与运维手册
 
 ## 许可证
 
-本仓库暂未声明开源许可证。
+本项目采用 [MIT License](LICENSE) 开源，可自由使用、修改、分发与商用，保留版权声明即可。
+
+## 联系
+
+- 邮箱：995801887@qq.com
+- GitHub：[@zshsir](https://github.com/zshsir)
+
+欢迎通过 Issue 反馈问题或提出改进建议。

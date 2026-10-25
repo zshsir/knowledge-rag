@@ -2,6 +2,8 @@
   "name": "knowledge-rag",
   "private": true,
   "version": "1.0.0",
+  "license": "MIT",
+  "author": "zshsir <995801887@qq.com>",
   "workspaces": [
     "apps/*"
   ],
