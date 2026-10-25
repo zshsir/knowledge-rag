@@ -1,0 +1,14 @@
+node_modules
+**/node_modules
+**/dist
+apps/api/storage
+apps/api/test/tmp-uploads
+.env
+.env.*
+deploy/.env.production
+.git
+docs
+smoke.tmp.mjs
+ui-test-doc.txt
+*.log
+.DS_Store

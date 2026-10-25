@@ -1,0 +1,23 @@
+{
+  "name": "knowledge-rag",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,worker,web -c blue,yellow,green \"npm:dev:api\" \"npm:dev:worker\" \"npm:dev:web\"",
+    "dev:api": "npm run start:dev -w @knowledge-rag/api",
+    "dev:worker": "npm run start:worker:dev -w @knowledge-rag/api",
+    "dev:web": "npm run dev -w @knowledge-rag/web",
+    "build": "npm run build -w @knowledge-rag/api && npm run build -w @knowledge-rag/web",
+    "typecheck": "npm run typecheck -w @knowledge-rag/api && npm run typecheck -w @knowledge-rag/web",
+    "test": "npm run test -w @knowledge-rag/api && npm run test -w @knowledge-rag/web",
+    "db:migrate": "npm run migrate -w @knowledge-rag/api",
+    "db:migrate:test": "npm run migrate:test -w @knowledge-rag/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "cross-env": "^10.0.0"
+  }
+}

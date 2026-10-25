@@ -1,0 +1,67 @@
+name: knowledge-rag
+
+services:
+  migrate:
+    image: knowledge-rag-api:local
+    env_file: .env.production
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: ["node", "dist/database/migrate.js"]
+    restart: "no"
+
+  api:
+    image: knowledge-rag-api:local
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+    env_file: .env.production
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      NODE_OPTIONS: --max-old-space-size=256
+    volumes:
+      - uploads_data:/data/uploads
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3300/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  worker:
+    image: knowledge-rag-api:local
+    env_file: .env.production
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      NODE_OPTIONS: --max-old-space-size=384
+    command: ["node", "dist/worker.js"]
+    volumes:
+      - uploads_data:/data/uploads
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  web:
+    image: knowledge-rag-web:local
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "${APP_PORT:-8088}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  uploads_data:
