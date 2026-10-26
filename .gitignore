@@ -13,3 +13,7 @@ apps/api/test/tmp-uploads/
 .DS_Store
 
 .superpowers/
+
+# 个人文件：简历等不应进入公开仓库
+简历-*.pdf
+*.resume.pdf
